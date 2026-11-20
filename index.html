@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UBHI — Portofolio Teknik Industri</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050505;--fg:#fff;--mut:#9a9a9a;--line:#242424;--card:#0c0c0c;--mono:'JetBrains Mono',ui-monospace,monospace;--px:max(5vw,calc((100vw - 1180px)/2));color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:radial-gradient(80% 50% at 50% 0,#1b1b1b,var(--bg) 70%);color:var(--fg);font:400 15px/1.6 Inter,system-ui,sans-serif;overflow-x:hidden}
+body.lock{overflow:hidden}
+h1,h2,h3{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-weight:400;text-transform:uppercase;line-height:.95}
+.rgb{background:linear-gradient(90deg,#ff2a2a,#ffe600,#18ff62,#00e5ff,#3a4bff,#ff2bd6,#ff2a2a);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:rgb 5s linear infinite}
+@keyframes rgb{to{background-position:300% 0}}
+.gl{position:relative;display:inline-block}
+.gl::before,.gl::after{content:attr(data-t);position:absolute;left:0;top:0;opacity:0;mix-blend-mode:screen;pointer-events:none;-webkit-text-fill-color:currentColor}
+.gl::before{color:#f33;animation:g1 3.4s infinite steps(1)}.gl::after{color:#33f;animation:g2 3.4s infinite steps(1)}
+@keyframes g1{0%,90%,100%{opacity:0}91%{opacity:.9;transform:translate(-5px,1px)}95%{opacity:.9;transform:translate(4px,-2px)}97%{opacity:0}}
+@keyframes g2{0%,90%,100%{opacity:0}92%{opacity:.9;transform:translate(5px,-1px)}96%{opacity:.9;transform:translate(-4px,2px)}98%{opacity:0}}
+#pg{position:fixed;top:0;left:0;height:3px;width:100%;background:linear-gradient(90deg,#f33,#ff0,#3f6,#0ef,#43f);transform-origin:left;transform:scaleX(0);z-index:90}
+nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:60;display:flex;gap:18px;align-items:center;justify-content:space-between;padding:10px var(--px);background:#000c;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav b{font:400 24px Anton,sans-serif;letter-spacing:2px}
+#nl{display:flex;gap:18px;font:11px var(--mono);text-transform:uppercase;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+#nl a{color:var(--mut);text-decoration:none;transition:.2s}#nl a:hover{color:#fff}
+section{padding:96px var(--px) 80px;position:relative}
+.tag{font:11px var(--mono);letter-spacing:3px;color:var(--mut);text-transform:uppercase;margin-bottom:14px}
+.tag::before{content:"[ "}.tag::after{content:" ]"}
+h2{font-size:clamp(36px,8vw,84px);margin-bottom:12px;overflow-wrap:anywhere;min-height:1em}
+.sub{color:var(--mut);max-width:60ch;margin-bottom:34px}
+.cr::after{content:"";display:inline-block;width:.08em;height:.9em;background:#fff;margin-left:4px;vertical-align:-.1em;animation:bl .6s steps(2) infinite;-webkit-text-fill-color:initial}
+.cr.done::after{display:none}
+@keyframes bl{50%{opacity:0}}
+.rv{opacity:0;transform:translateX(-50px);transition:opacity .8s,transform .8s cubic-bezier(.2,.7,.2,1)}.rv.r{transform:translateX(50px)}.rv.in{opacity:1;transform:none}
+.btn{display:inline-block;padding:13px 24px;background:#fff;color:#000;border:2px solid #fff;text-decoration:none;font:600 12px var(--mono);letter-spacing:1px;cursor:pointer;transition:.25s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px #fff6}.btn.alt{background:none;color:#fff}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+
+/* layar awal */
+#start{position:fixed;inset:0;z-index:200;background:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px) 0 0/40px 40px,radial-gradient(60% 50% at 50% 50%,#1c1c1c,#000);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:20px;transition:opacity .8s,visibility .8s}
+#start.hide{opacity:0;visibility:hidden;pointer-events:none}
+#start p{font:12px var(--mono);letter-spacing:3px;color:var(--mut);text-transform:uppercase}
+#start h1{font-size:clamp(100px,32vw,300px);letter-spacing:4px}
+#boot{font:12px/1.7 var(--mono);color:#cfcfcf;text-align:left;min-height:88px;white-space:pre;margin-top:6px}
+.pb{width:min(300px,70vw);height:4px;background:#ffffff18}.pb i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f33,#ff0,#3f6,#0ef,#43f);transition:width .4s}
+.sb{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px;opacity:0;pointer-events:none;transition:.5s}.sb.on{opacity:1;pointer-events:auto}
+#snd{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:80;height:44px;padding:0 16px;border:1px solid #fff;background:#000c;color:#fff;font:600 12px var(--mono);cursor:pointer;display:none}
+
+/* hero */
+#hero{min-height:100svh;display:flex;align-items:center;overflow:hidden;padding-top:100px}
+.hg{position:relative;z-index:2;display:grid;grid-template-columns:1.3fr 1fr;gap:30px;align-items:center;width:100%}
+.sm2{font:500 clamp(14px,3vw,22px) var(--mono);letter-spacing:6px;margin:4px 0 -6px}
+.nm{font-size:clamp(110px,27vw,300px);letter-spacing:4px;line-height:.9}
+.role{font:500 clamp(15px,2.6vw,24px) var(--mono);min-height:1.5em;margin:10px 0 12px}
+.hp{max-width:500px;color:#d0d0d0;margin-bottom:22px}
+.st{display:flex;gap:34px;margin-top:26px}.st span{font:400 clamp(28px,5vw,44px) Anton}.st small{display:block;font:9px var(--mono);letter-spacing:2px;color:var(--mut);margin-top:-4px}
+.lan{justify-self:center;transform-origin:50% 0;animation:sway 4.6s ease-in-out infinite;pointer-events:none}
+@keyframes sway{0%,100%{rotate:-6deg}50%{rotate:6deg}}
+.strap{width:16px;height:90px;margin:0 auto;background:repeating-linear-gradient(135deg,#fff 0 6px,#555 6px 12px);border:1px solid #fff}
+.clip{width:34px;height:14px;margin:0 auto;background:#ccc;border-radius:3px;border:1px solid #fff}
+.idc{position:relative;width:170px;height:250px;border-radius:12px;border:1px solid #fff;padding:20px 10px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;box-shadow:0 0 40px #fff3;overflow:hidden;background:linear-gradient(160deg,#2a2a2a,#050505)}
+.idc.f1{background:#fff;color:#000}
+.idc img{width:104px;height:126px;object-fit:cover;border-radius:8px;border:2px solid #fff;background:#333}
+.idc b{font:400 28px/1 Anton;letter-spacing:2px}.idc small{font:9px var(--mono);letter-spacing:2px;text-transform:uppercase}
+.idc svg{width:90px;height:90px}
+.mq{overflow:hidden;border-block:1px solid var(--line);padding:20px 0}
+.mq div{display:flex;gap:56px;width:max-content;animation:mq 24s linear infinite;font:400 clamp(24px,5vw,36px) Anton;text-transform:uppercase;color:#2f2f2f}
+.mq.b div{animation-direction:reverse;color:transparent;-webkit-text-stroke:1px #666}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* konten */
+.two{display:grid;grid-template-columns:1.3fr 1fr;gap:30px}
+.card{background:var(--card);border:1px solid var(--line);padding:22px;position:relative;transition:transform .35s,border-color .35s,box-shadow .35s}
+.card:hover{transform:translateY(-6px);border-color:#fff;box-shadow:0 18px 40px -18px #fff5}
+.card h3{font-size:22px;margin-bottom:8px}.card p{color:var(--mut);font-size:14px}.card i{font:400 40px Anton;font-style:normal;color:#2b2b2b;position:absolute;right:16px;top:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.chips span{font:10px var(--mono);border:1px solid #444;padding:2px 8px;color:#ccc}
+.sk{margin-bottom:22px}.sh{display:flex;justify-content:space-between;font:500 12px var(--mono);margin-bottom:8px;text-transform:uppercase}.sh span{color:var(--mut)}
+.sk i{display:block;height:6px;background:#1d1d1d;position:relative}
+.sk i::after{content:"";position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,#f33,#ff0,#3f6,#0ef,#43f);box-shadow:0 0 12px #0ef8;transition:width 1.5s cubic-bezier(.2,.7,.2,1)}
+.sk.in i::after{width:var(--w)}
+.vf{position:relative;max-width:900px;border:1px solid #fff;padding:10px;background:#000}
+.vf::before,.vf::after{content:"";position:absolute;width:26px;height:26px;border:3px solid #fff}.vf::before{top:-8px;left:-8px;border-right:0;border-bottom:0}.vf::after{bottom:-8px;right:-8px;border-left:0;border-top:0}
+.vf video{display:block;width:100%;aspect-ratio:16/9;background:#111}
+.note{font:11px var(--mono);color:var(--mut);margin-top:12px}
+.tl{position:relative;padding-left:30px;max-width:760px}
+.tl::before{content:"";position:absolute;left:4px;top:0;bottom:0;width:2px;background:var(--line)}
+.tl u{position:absolute;left:4px;top:0;width:2px;height:0;background:linear-gradient(#f33,#ff0,#3f6,#0ef,#43f);box-shadow:0 0 10px #0ef}
+.tl div{position:relative;margin-bottom:30px}.tl div::before{content:"";position:absolute;left:-30px;top:6px;width:10px;height:10px;background:var(--bg);border:2px solid #fff;border-radius:50%}
+.tl b{display:block;font:400 24px Anton;text-transform:uppercase}.tl p{color:var(--mut);font-size:14px}
+.end{text-align:center}.end h2{font-size:clamp(40px,10vw,110px)}.end .sub{margin:10px auto 26px}
+footer{text-align:center;color:var(--mut);font:11px var(--mono);padding:30px var(--px) 80px;letter-spacing:2px;border-top:1px solid var(--line)}
+.flow{position:relative;display:flex;justify-content:space-between;gap:10px;padding:34px 0;max-width:900px}
+.flow::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#666}
+.nd{position:relative;z-index:1;background:var(--card);border:1px solid #fff;padding:10px 14px;font:500 11px var(--mono);text-transform:uppercase}
+.pk{position:absolute;z-index:2;top:50%;left:0;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:#fff;box-shadow:0 0 18px #0ef,0 0 6px #fff;animation:pk 6s linear infinite}
+@keyframes pk{from{left:0}to{left:calc(100% - 14px)}}@keyframes pkv{from{top:0}to{top:calc(100% - 14px)}}
+.calc{max-width:760px;margin-top:40px}
+.calc label{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font:500 12px var(--mono);margin:14px 0;text-transform:uppercase}
+.calc input[type=number]{width:110px;background:#000;border:1px solid #fff;color:#fff;padding:8px;font:inherit}
+.calc input[type=range]{flex:1;min-width:140px;accent-color:#0ef}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}.res span{font:400 40px Anton}.res small{display:block;font:9px var(--mono);letter-spacing:2px;color:var(--mut)}
+.dots{display:grid;grid-template-columns:repeat(auto-fill,minmax(14px,1fr));gap:4px;margin:14px 0 18px}.dots em{height:14px;background:#2a2a2a;animation:pop .4s both}.dots em.x{background:#f33;box-shadow:0 0 8px #f33}.dots em.o{background:#3f6}
+@keyframes pop{from{transform:scale(0)}}
+#spot{position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(320px circle at var(--mx,50%) var(--my,30%),rgba(255,255,255,.07),transparent 70%)}
+.sl{opacity:0;will-change:transform,opacity;transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1),clip-path 1s ease}
+.sl.k0{transform:translateX(-90px)}.sl.k1{transform:translateX(90px)}.sl.k2{transform:translateY(60px)}.sl.k3{opacity:1;clip-path:inset(0 100% 0 0)}.sl.k4{transform:scale(.88) translateY(30px)}
+.sl.in{opacity:1;transform:none;clip-path:inset(-30px)}
+.who{max-width:520px;color:#e8e8e8;font:500 15px/1.6 var(--mono);margin:6px 0 4px;border-left:3px solid #fff;padding-left:14px}.who b{background:linear-gradient(90deg,#f33,#ff0,#3f6,#0ef,#43f,#f33);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:rgb 5s linear infinite}
+.qt{font:400 clamp(26px,6vw,56px)/1.05 Anton,sans-serif;text-transform:uppercase;margin-top:44px;max-width:900px}
+.vbar{max-width:900px;margin-top:18px}.pvb{display:block;width:100%;padding:16px 24px;font:600 clamp(13px,3.6vw,16px) var(--mono);letter-spacing:2px;color:#000;border:0;cursor:pointer;background:linear-gradient(90deg,#f33,#ff0,#3f6,#0ef,#43f,#f33);background-size:300% 100%;animation:rgb 4s linear infinite;transition:transform .2s}.pvb:hover{transform:translateY(-3px)}.pvb:active{transform:scale(.98)}
+.gw{max-width:900px;border:1px solid #fff;background:#000}.gw canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;touch-action:manipulation;cursor:crosshair}
+#bgart{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:linear-gradient(rgba(255,255,255,.15) 1px,transparent 1px) 0 0/200px 200px,linear-gradient(90deg,rgba(255,255,255,.15) 1px,transparent 1px) 0 0/200px 200px,linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px) 0 0/40px 40px}
+.ic{position:absolute;color:#fff;opacity:.11;pointer-events:none;translate:0 calc(var(--sy,0)*var(--k,.1)*-1px)}
+.ic svg{display:block;width:100%;height:auto;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+@keyframes rot{to{rotate:360deg}}@keyframes flt{50%{transform:translateY(-18px)}}
+.card{background:rgba(10,10,10,.78)}
+@media(max-width:760px){.ic{opacity:.08}}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px}
+.mc{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.mi{position:relative;aspect-ratio:16/10;display:grid;place-items:center;background:repeating-linear-gradient(45deg,#121212 0 10px,#0b0b0b 10px 20px);border-bottom:1px solid var(--line);overflow:hidden}
+.mi svg{width:34%;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:.5}
+.mi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.mc:hover .mi img{transform:scale(1.07)}
+.mi b{position:absolute;left:12px;top:10px;z-index:2;font:400 26px Anton;background:#000b;padding:0 10px;border:1px solid #fff}
+.mb{padding:20px}
+.lb{display:inline-block;font:500 10px var(--mono);letter-spacing:2px;text-transform:uppercase;background:linear-gradient(90deg,#f33,#ff0,#3f6,#0ef,#43f);color:#000;padding:2px 8px;margin-bottom:10px}
+.mb h3{font-size:24px;margin-bottom:10px;color:#fff}
+.mc ul{list-style:none;margin:12px 0}
+.mc li{position:relative;padding-left:20px;margin:8px 0;color:#d2d2d2;font-size:14px}.mc li b{color:#fff;font-weight:600}
+.mc li::before{content:"▸";position:absolute;left:0;color:#0ef}
+.mc details{border:1px dashed #555;padding:10px 12px;margin-top:8px}
+.mc summary{cursor:pointer;font:500 12px var(--mono);color:#0ef;text-transform:uppercase;list-style:none}.mc summary::-webkit-details-marker{display:none}
+.mc summary::before{content:"+ "}.mc details[open] summary::before{content:"− "}
+.mc details p{margin-top:8px;font-size:13px}
+html{scroll-snap-type:y proximity}
+section{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start;padding-top:calc(84px + env(safe-area-inset-top,0px))}
+.end{align-items:center}
+#dots{position:fixed;right:10px;top:50%;translate:0 -50%;z-index:70;display:flex;flex-direction:column;gap:12px}
+#dots a{position:relative;display:block;width:10px;height:10px;border:1px solid #fff;border-radius:50%;transition:.3s;background:#0008}
+#dots a::after{content:"";position:absolute;inset:-8px}
+#dots a.on{background:linear-gradient(135deg,#f33,#0ef);border-color:transparent;transform:scale(1.5)}
+@media(max-width:760px){#dots{right:4px;gap:10px}#dots a{width:7px;height:7px}section{padding-bottom:40px}}
+@media(max-height:520px) and (orientation:landscape){section{min-height:auto}}
+@media(max-width:760px){.flow{flex-direction:column;align-items:center;gap:24px}.flow::before{left:50%;right:auto;top:0;bottom:0;width:1px;height:auto}.pk{left:50%;margin-left:-7px;animation-name:pkv}}
+@media(max-width:760px){.hg,.two{grid-template-columns:1fr}.lan{order:-1}.idc{width:140px;height:210px}.idc img{width:84px;height:100px}.strap{height:50px}section{padding:80px var(--px) 60px}#hero{padding-top:90px}nav b{font-size:20px}.sb .btn{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv,.sl{opacity:1;transform:none;clip-path:none}.sk i::after{width:var(--w)}}
+</style>
+</head>
+<body class="lock">
+
+<div id="pg"></div><div id="spot"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="s-gear" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" stroke-width="22" stroke-dasharray="12 9.6"/><circle cx="100" cy="100" r="62" stroke-width="6"/><circle cx="100" cy="100" r="22" stroke-width="6"/><path d="M100 38v40M100 122v40M38 100h40M122 100h40" stroke-width="6"/></symbol>
+<symbol id="s-wrench" viewBox="0 0 100 100"><path d="M68 12a21 21 0 0 0-20 28L14 74a9 9 0 0 0 12 12l34-34a21 21 0 0 0 28-20l-14 12-12-4-4-12z"/></symbol>
+<symbol id="s-helmet" viewBox="0 0 100 100"><path d="M16 62a34 34 0 0 1 68 0z"/><path d="M8 62h84v9H8zM46 28v16M30 36l8 14M70 36l-8 14"/></symbol>
+<symbol id="s-belt" viewBox="0 0 100 100"><rect x="6" y="62" width="88" height="18" rx="9"/><circle cx="15" cy="71" r="4"/><circle cx="85" cy="71" r="4"/><rect x="18" y="38" width="22" height="22"/><rect x="56" y="44" width="18" height="16"/></symbol>
+<symbol id="s-gauge" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40"/><circle cx="50" cy="50" r="30" stroke-dasharray="2 7"/><path d="M50 50L70 30"/><circle cx="50" cy="50" r="4"/></symbol>
+<symbol id="s-fac" viewBox="0 0 100 100"><path d="M8 90V50l22 14V50l22 14V30h40v60zM64 30V12h10v18"/><path d="M62 52h6M76 52h6M62 66h6M76 66h6"/></symbol>
+<symbol id="s-nut" viewBox="0 0 100 100"><path d="M50 8l36 21v42L50 92 14 71V29z"/><circle cx="50" cy="50" r="16"/></symbol>
+<symbol id="s-bolt" viewBox="0 0 100 100"><path d="M56 6L22 56h24l-6 38 36-52H52z"/></symbol>
+<symbol id="s-code" viewBox="0 0 100 100"><path d="M34 28L12 50l22 22M66 28l22 22-22 22M56 20L44 80"/></symbol>
+<symbol id="s-cad" viewBox="0 0 100 100"><path d="M10 84L84 10v74z"/><path d="M84 26H72M84 42H66M84 58H72M84 74H66"/></symbol>
+<symbol id="s-robot" viewBox="0 0 100 100"><rect x="22" y="30" width="56" height="44" rx="8"/><circle cx="40" cy="52" r="6"/><circle cx="60" cy="52" r="6"/><path d="M50 30V16M44 16h12M12 48v10M88 48v10M38 74v10M62 74v10"/></symbol>
+</defs></svg>
+<div id="bgart" aria-hidden="true"></div>
+
+<div id="start">
+  <p>// selamat datang</p><p>aku</p>
+  <h1 class="rgb gl" data-t="UBHI">UBHI</h1>
+  <div id="boot"></div>
+  <div class="pb"><i id="pbi"></i></div>
+  <div class="sb" id="sb"><button class="btn" id="b1" type="button">MASUK ▶</button></div>
+</div>
+<button id="snd" type="button">♪ MUSIK: MATI</button>
+
+<nav><b class="rgb">UBHI</b><div id="nl"><a href="#siapa">Siapa</a><a href="#tentang">Tentang</a><a href="#skill">Skill</a><a href="#proyek">Proyek</a><a href="#materi">Materi</a><a href="#video">Video</a><a href="#alur">Alur</a><a href="#lab">Lab</a><a href="#game">Game</a></div></nav>
+
+<section id="hero">
+  <div class="hg">
+    <div>
+      <p class="tag">halo, mahasiswa teknik industri</p>
+      <p class="sm2">AKU</p>
+      <h1 class="nm rgb gl" data-t="UBHI">UBHI</h1>
+      <p class="who">namaku <b>Miko Saputra</b>, developer yang menulis kode, artist yang menggambar rasa, dan mekanik yang menghidupkan mesin.</p>
+      <p class="role" id="ty"></p>
+      <p class="hp">Aku suka melihat bagaimana mesin, orang, dan data bekerja bersama. Di sini aku mencatat langkah belajarku membuat setiap proses lebih rapi, aman, dan efisien.</p>
+      <div class="btns"><a class="btn" href="#proyek">LIHAT PROYEK →</a><a class="btn alt" id="hv" href="#video">▶ PLAY VIDEO</a></div>
+      <div class="st"><div><span data-to="3">0</span><small>MINAT UTAMA</small></div><div><span data-to="6">0</span><small>PROYEK</small></div><div><span>∞</span><small>RASA INGIN TAHU</small></div></div>
+    </div>
+    <div class="lan" aria-hidden="true"><div class="strap"></div><div class="clip"></div><div class="idc" id="idc"></div></div>
+  </div>
+</section>
+
+<div class="mq"><div><span>Industri</span><span>Kualitas</span><span>Proses</span><span>Sistem</span><span>Efisien</span><span>Aman</span><span>Industri</span><span>Kualitas</span><span>Proses</span><span>Sistem</span><span>Efisien</span><span>Aman</span></div></div>
+<div class="mq b"><div><span>Terus Belajar</span><span>Terus Bertumbuh</span><span>Teliti</span><span>Sistematis</span><span>Terus Belajar</span><span>Terus Bertumbuh</span><span>Teliti</span><span>Sistematis</span></div></div>
+
+<section id="siapa">
+  <p class="tag">00 / perkenalan</p>
+  <h2 class="rgb tw" data-text="Namaku Miko Saputra"></h2>
+  <p class="sub">Pagi hari aku menulis kode, sore hari aku menarik garis, dan malam hari aku membujuk mesin supaya mau bernyanyi. Tiga topi, satu kepala yang tidak bisa diam.</p>
+  <div class="grid">
+    <div class="card rv"><i>{ }</i><h3>Developer</h3><p>Aku merangkai baris demi baris sampai layar ikut bernapas. Bagiku bug bukan musuh, tapi teka-teki yang menunggu diajak bicara.</p><div class="chips"><span>Web</span><span>Game</span><span>Logika</span></div></div>
+    <div class="card rv r"><i>✎</i><h3>Artist</h3><p>Pensil dan piksel sama-sama bahasaku. Aku menggambar hal yang belum sempat ada, lalu membuatnya terasa seperti sudah lama hidup.</p><div class="chips"><span>Sketsa</span><span>Visual</span><span>Rasa</span></div></div>
+    <div class="card rv"><i>⚙</i><h3>Mekanik</h3><p>Mesin bicara lewat suara dan getaran. Aku belajar mendengarnya, membongkarnya, lalu merakitnya kembali sampai kembali bernyanyi.</p><div class="chips"><span>Mesin</span><span>Rakit</span><span>Nyata</span></div></div>
+  </div>
+  <p class="qt rgb rv">“Kode untuk logika. Seni untuk rasa. Mesin untuk nyata.”</p>
+</section>
+
+<section id="tentang">
+  <p class="tag">01 / tentang aku</p>
+  <h2 class="rgb tw" data-text="Belajar merancang sistem"></h2>
+  <p class="sub">Teknik industri mengajariku melihat gambaran besar: bagaimana manusia, mesin, material, dan metode saling terhubung dalam satu alur kerja.</p>
+  <div class="two">
+    <div class="rv"><p style="color:#cfcfcf;margin-bottom:14px">Aku tertarik pada pertanyaan sederhana: apa yang bisa dibuat lebih cepat, lebih aman, dan lebih baik tanpa mengorbankan kualitas? Dari gambar teknik sampai hitungan peluang, semuanya jadi latihan berpikir yang rapi.</p><p style="color:#cfcfcf">Portofolio ini adalah catatan prosesku, bukan hanya hasil akhir. Setiap tugas kuanggap kesempatan untuk memahami, mencoba, memeriksa, lalu memperbaiki.</p></div>
+    <div class="rv r card"><h3>Profil singkat</h3><p>Program studi Teknik Industri<br>Institusi Univ PGRI<br>Fokus: proses produksi, kualitas, gambar teknik, dan pemecahan masalah.</p></div>
+  </div>
+</section>
+
+<section id="skill">
+  <p class="tag">02 / kemampuan</p>
+  <h2 class="rgb tw" data-text="Skill yang kuasah"></h2>
+  <p class="sub">Tingkat awal yang jujur. Bar akan terus bertambah seiring latihan.</p>
+  <div class="grid" style="gap:0 40px">
+    <div class="sk rv"><div class="sh"><b>Gambar teknik</b><span>Dasar</span></div><i style="--w:55%"></i></div>
+    <div class="sk rv r"><div class="sh"><b>AutoCAD 2D</b><span>Pemula</span></div><i style="--w:35%"></i></div>
+    <div class="sk rv"><div class="sh"><b>Excel &amp; olah data</b><span>Dasar</span></div><i style="--w:50%"></i></div>
+    <div class="sk rv r"><div class="sh"><b>Flowchart &amp; logika</b><span>Dasar</span></div><i style="--w:55%"></i></div>
+    <div class="sk rv"><div class="sh"><b>Analisis kuantitatif</b><span>Dasar</span></div><i style="--w:50%"></i></div>
+    <div class="sk rv r"><div class="sh"><b>Kerja tim</b><span>Dasar</span></div><i style="--w:60%"></i></div>
+  </div>
+</section>
+
+<section id="proyek">
+  <p class="tag">03 / proyek</p>
+  <h2 class="rgb tw" data-text="Karya dari kelas"></h2>
+  <p class="sub">Latihan akademik yang membentuk cara berpikirku.</p>
+  <div class="grid">
+    <div class="card rv"><i>01</i><h3>AutoCAD 2D</h3><p>Menyajikan bentuk dan ukuran benda dengan perintah LINE, OFFSET, TRIM, MOVE, dan COPY.</p><div class="chips"><span>CAD</span><span>Ketelitian</span></div></div>
+    <div class="card rv r"><i>02</i><h3>Flowchart</h3><p>Menyusun input, proses, keputusan, dan output sebelum menjadi program.</p><div class="chips"><span>Logika</span><span>Alur</span></div></div>
+    <div class="card rv"><i>03</i><h3>Peluang &amp; Kualitas</h3><p>Menghitung peluang produk cacat dan nilai harapan untuk membaca kondisi mutu.</p><div class="chips"><span>Probabilitas</span><span>QC</span></div></div>
+    <div class="card rv r"><i>04</i><h3>Sentra Genteng</h3><p>Memetakan bahan baku, tahapan produksi, tenaga kerja, hingga distribusi.</p><div class="chips"><span>Studi kasus</span><span>Proses</span></div></div>
+    <div class="card rv"><i>05</i><h3>Kimia Material</h3><p>Mengaitkan ikatan kimia dengan kekuatan, titik leleh, dan daya hantar listrik.</p><div class="chips"><span>Material</span><span>Sifat bahan</span></div></div>
+    <div class="card rv r"><i>06</i><h3>Fisika Teknik</h3><p>Menyelesaikan soal dengan pola diketahui, ditanya, jawab, dan satuan yang tepat.</p><div class="chips"><span>Fisika</span><span>Satuan</span></div></div>
+  </div>
+</section>
+
+<section id="materi">
+  <p class="tag">materi belajar</p>
+  <h2 class="rgb tw" data-text="Enam materi dasar"></h2>
+  <p class="sub">Ringkas dan tidak bikin malas baca. Tiap materi punya inti, tiga poin penting, dan satu fakta menarik.</p>
+  <div class="mgrid">
+<article class="card mc rv"><div class="mi"><b>01</b><svg viewBox="0 0 100 100"><use href="#s-fac" width="100" height="100"/></svg><img src="foto1.jpg" alt="Lingkungan kerja industri" hidden onload="this.hidden=false" onerror="this.remove()"></div><div class="mb"><span class="lb">Dasar</span><h3>Pengenalan lingkungan kerja industri</h3><p>Pabrik bukan sekadar mesin. Ini ekosistem tempat manusia, mesin, material, metode, dan lingkungan bekerja dalam satu alur.</p><ul><li><b>Area utama:</b> gudang bahan baku, lini produksi, inspeksi kualitas, gudang barang jadi, dan pengiriman.</li><li><b>Alur kerja:</b> bahan masuk, diproses, diperiksa, dikemas, lalu dikirim.</li><li><b>Aturan dasar:</b> APD wajib, jalur pejalan kaki dipisah dari forklift, dan area kerja selalu rapi.</li></ul><details><summary>Tahukah kamu?</summary><p>Budaya 5S dari Jepang (Seiri, Seiton, Seiso, Seiketsu, Shitsuke) menjaga tempat kerja tertib, sehingga alat mudah ditemukan dan risiko celaka berkurang.</p></details></div></article>
+<article class="card mc rv r"><div class="mi"><b>02</b><svg viewBox="0 0 100 100"><use href="#s-bolt" width="100" height="100"/></svg><img src="foto2.jpeg" alt="Dunia kelistrikan" hidden onload="this.hidden=false" onerror="this.remove()"></div><div class="mb"><span class="lb">Listrik</span><h3>Dunia kelistrikan</h3><p>Listrik adalah urat nadi pabrik: menggerakkan motor, lampu, sensor, dan sistem kendali.</p><ul><li><b>Besaran dasar:</b> tegangan (Volt), arus (Ampere), hambatan (Ohm), daya (Watt). Hukum Ohm: V = I × R.</li><li><b>Komponen umum:</b> MCB, kontaktor, relay, motor listrik, dan panel kendali.</li><li><b>Instalasi industri:</b> motor besar biasanya memakai listrik 3 fase, dengan kabel dan pengaman yang disesuaikan beban.</li></ul><details><summary>Tahukah kamu?</summary><p>Daya dihitung P = V × I. Makin besar arus, makin panas kabelnya, jadi ukuran kabel dan pengaman tidak boleh asal pilih.</p></details></div></article>
+<article class="card mc rv"><div class="mi"><b>03</b><svg viewBox="0 0 100 100"><use href="#s-code" width="100" height="100"/></svg><img src="foto3.jpeg" alt="Logika pemrograman" hidden onload="this.hidden=false" onerror="this.remove()"></div><div class="mb"><span class="lb">Logika</span><h3>Logika pemrograman</h3><p>Sebelum menulis kode, susun dulu cara berpikirnya. Program hanyalah urutan keputusan yang rapi.</p><ul><li><b>Tiga pola dasar:</b> urutan (sequence), percabangan (if-else), dan perulangan (loop).</li><li><b>Alur pikir:</b> input, proses, output, lalu digambar sebagai flowchart atau ditulis sebagai pseudocode.</li><li><b>Kebiasaan baik:</b> pecah masalah jadi langkah kecil, beri nama variabel yang jelas, dan uji dengan data contoh.</li></ul><details><summary>Tahukah kamu?</summary><p>PLC di pabrik memakai logika yang sama: jika sensor mendeteksi produk, maka konveyor berhenti.</p></details></div></article>
+<article class="card mc rv r"><div class="mi"><b>04</b><svg viewBox="0 0 100 100"><use href="#s-cad" width="100" height="100"/></svg><img src="foto4.jpg" alt="Gambar teknik dan AutoCAD" hidden onload="this.hidden=false" onerror="this.remove()"></div><div class="mb"><span class="lb">Desain</span><h3>Gambar teknik dan AutoCAD</h3><p>Gambar teknik adalah bahasa universal insinyur: satu gambar, satu arti, siapa pun yang membaca membuat benda yang sama.</p><ul><li><b>Isi gambar:</b> tampak depan, atas, dan samping, ukuran (dimensi), skala, jenis garis, dan satuan.</li><li><b>Perintah dasar AutoCAD 2D:</b> LINE, RECTANG, CIRCLE, OFFSET, TRIM, MOVE, COPY.</li><li><b>Kunci hasil rapi:</b> atur satuan dan layer, pakai OSNAP agar presisi, dan cek ukuran sebelum dicetak.</li></ul><details><summary>Tahukah kamu?</summary><p>Satu angka dimensi yang salah bisa membuat komponen tidak muat saat dirakit, jadi ketelitian lebih penting daripada kecepatan.</p></details></div></article>
+<article class="card mc rv"><div class="mi"><b>05</b><svg viewBox="0 0 100 100"><use href="#s-helmet" width="100" height="100"/></svg><img src="foto5.jpeg" alt="Keselamatan kerja industri" hidden onload="this.hidden=false" onerror="this.remove()"></div><div class="mb"><span class="lb">K3</span><h3>Keselamatan kerja industri</h3><p>Produktif itu penting, tapi pulang dalam keadaan selamat jauh lebih penting.</p><ul><li><b>APD dasar:</b> helm, kacamata, sarung tangan, masker, dan sepatu keselamatan.</li><li><b>Kenali bahaya:</b> mesin bergerak, listrik, panas, bising, bahan kimia, dan beban berat.</li><li><b>Prinsip K3:</b> identifikasi bahaya, nilai risikonya, lalu kendalikan. Saat perawatan, kunci sumber energi mesin dengan lockout-tagout.</li></ul><details><summary>Tahukah kamu?</summary><p>Hierarki pengendalian bahaya mengutamakan menghilangkan bahaya lebih dulu. APD adalah lapisan terakhir, bukan yang pertama.</p></details></div></article>
+<article class="card mc rv r"><div class="mi"><b>06</b><svg viewBox="0 0 100 100"><use href="#s-robot" width="100" height="100"/></svg><img src="foto6.jpeg" alt="Robotik" hidden onload="this.hidden=false" onerror="this.remove()"></div><div class="mb"><span class="lb">Teknologi</span><h3>Robotik</h3><p>Robot industri mengambil pekerjaan yang berat, berulang, dan berbahaya, supaya manusia fokus pada keputusan dan kreativitas.</p><ul><li><b>Tiga bagian utama:</b> sensor untuk merasakan, pengendali untuk berpikir, dan aktuator untuk bergerak.</li><li><b>Contoh pemakaian:</b> lengan robot untuk las, cat, dan perakitan, serta AGV yang mengantar barang antar-area.</li><li><b>Cobot:</b> robot kolaboratif yang aman bekerja berdampingan dengan manusia berkat sensor keselamatan.</li></ul><details><summary>Tahukah kamu?</summary><p>Robot memakai logika pemrograman yang sama: baca sensor, ambil keputusan, lalu gerakkan motor.</p></details></div></article>
+  </div>
+</section>
+
+<section id="video">
+  <p class="tag">04 / video</p>
+  <h2 class="rgb tw" data-text="Dunia industri"></h2>
+  <p class="sub">Video diputar satu kali. Musik mati saat video jalan, lalu menyala lagi begitu video selesai atau dijeda.</p>
+  <div class="vf rv"><video id="pv" src="industri.mp4" controls playsinline preload="metadata"></video></div>
+  <div class="vbar"><button class="pvb" id="pb2" type="button">▶ PLAY VIDEO</button></div>
+  <p class="note">Video: industri.mp4 (letakkan di folder yang sama dengan file ini)</p>
+</section>
+
+<section id="alur">
+  <p class="tag">05 / cara kerja</p>
+  <h2 class="rgb tw" data-text="Enam langkahku"></h2>
+  <div class="tl" id="tl"><u></u>
+    <div class="rv"><b>Pahami masalah</b><p>Baca instruksi, tentukan tujuan, catat informasi yang ada.</p></div>
+    <div class="rv"><b>Kumpulkan data</b><p>Ukuran, angka, referensi, dan kondisi proses yang relevan.</p></div>
+    <div class="rv"><b>Analisis</b><p>Pilih konsep, rumus, atau metode yang paling cocok.</p></div>
+    <div class="rv"><b>Susun solusi</b><p>Gambar, hitungan, flowchart, tabel, atau usulan perbaikan.</p></div>
+    <div class="rv"><b>Periksa hasil</b><p>Cek ketepatan, satuan, dan kesesuaian dengan tujuan.</p></div>
+    <div class="rv"><b>Dokumentasikan</b><p>Simpan hasil dan tulis apa yang kupelajari.</p></div>
+  </div>
+</section>
+
+<section id="lab">
+  <p class="tag">06 / lab mini</p>
+  <h2 class="rgb tw" data-text="Coba sendiri"></h2>
+  <p class="sub">Alur produksi yang bergerak, lalu kalkulator peluang cacat yang bisa kamu mainkan.</p>
+  <div class="flow rv"><div class="nd">Bahan baku</div><div class="nd">Produksi</div><div class="nd">Inspeksi</div><div class="nd">Gudang</div><div class="nd">Distribusi</div><b class="pk"></b></div>
+  <div class="calc card rv r">
+    <h3>Kalkulator peluang cacat</h3>
+    <label>Jumlah produk <input id="cn" type="number" min="1" max="1000" value="50"></label>
+    <label>Persentase cacat <input id="cp" type="range" min="0" max="20" value="4"><output id="co">4%</output></label>
+    <div class="res"><div><span id="r1">2</span><small>NILAI HARAPAN CACAT</small></div><div><span id="r2">87%</span><small>PELUANG ADA CACAT</small></div><div><span id="r3">0</span><small>HASIL SIMULASI</small></div></div>
+    <div class="dots" id="dots"></div>
+    <button class="btn" id="sim" type="button">SIMULASI ULANG ↻</button>
+  </div>
+</section>
+
+<section id="game">
+  <p class="tag">07 / game</p>
+  <h2 class="rgb tw" data-text="QC Rush"></h2>
+  <p class="sub">Kamu petugas inspeksi di ban berjalan. Ketuk produk cacat (merah) sebelum lolos, tapi jangan ketuk yang bagus. Makin tinggi skor, makin cepat sabuknya.</p>
+  <div class="gw rv"><canvas id="gc" width="1280" height="720"></canvas></div>
+  <div class="btns" style="margin-top:16px;align-items:center"><button class="btn" id="gs" type="button">MULAI GAME ▶</button><span class="note" id="gb" style="margin:0"></span></div>
+</section>
+
+<section class="end">
+  <h2 class="rgb tw" data-text="Terus belajar. Terus bertumbuh."></h2>
+  <p class="sub">Terima kasih sudah mampir. Aku terbuka untuk masukan dan kolaborasi.</p>
+</section>
+<footer>© 2026 UBHI · MIKO SAPUTRA · TEKNIK INDUSTRI</footer>
+
+<script>
+var $=function(s){return document.querySelector(s)},$$=function(s){return[].slice.call(document.querySelectorAll(s))};
+var RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function typeInto(el,txt,sp,cb){if(RM){el.textContent=txt;cb&&cb();return}el.classList.add("cr");var i=0;(function t(){el.textContent=txt.slice(0,++i);if(i<txt.length)setTimeout(t,sp+Math.random()*sp*.6);else{setTimeout(function(){el.classList.add("done")},800);cb&&cb()}})()}
+
+function fire(el){if(el.dataset.text)typeInto(el,el.dataset.text,40);else el.classList.add("in")}
+// boot
+var BL=["> memuat sistem industri...","> sinkronisasi video: industri.mp4","> audio siap: tante.mp3 (otomatis)","> semua sistem siap"],bk=0;
+(function bn(){if(bk<BL.length){$("#boot").textContent+=BL[bk]+"\n";$("#pbi").style.width=((bk+1)/BL.length*100)+"%";bk++;setTimeout(bn,420)}else $("#sb").classList.add("on")})();
+
+// musik & video
+var au=new Audio("tante.mp3"),snd=$("#snd"),pv=$("#pv"),playing=false,resume=false;
+au.loop=true;
+function setM(on){playing=on;snd.textContent=on?"♪ MUSIK: NYALA":"♪ MUSIK: MATI"}
+function playM(){var p=au.play();if(p&&p.then)p.then(function(){setM(true)}).catch(function(){setM(false)});else setM(true)}
+snd.onclick=function(){if(playing){au.pause();setM(false)}else playM()};
+var pb2=$("#pb2");
+pv.onplay=function(){pb2.textContent="⏸ JEDA VIDEO";if(playing){au.pause();setM(false);resume=true}};
+pv.onpause=pv.onended=function(){pb2.textContent=pv.ended?"↻ PUTAR LAGI":"▶ LANJUTKAN";if(resume){resume=false;playM()}};
+pb2.onclick=function(){if(!pv.paused&&!pv.ended){pv.pause();return}if(pv.ended)pv.currentTime=0;pv.play()};
+$("#hv").onclick=function(){setTimeout(function(){if(pv.ended)pv.currentTime=0;pv.play().catch(function(){})},700)};
+
+// buka situs
+var started=false,queue=[];
+function openSite(m){
+  $("#start").classList.add("hide");document.body.classList.remove("lock");
+  snd.style.display="block";playM();
+  
+  started=true;queue.splice(0).forEach(function(t,i){setTimeout(function(){fire(t)},400+i*180)});
+  setTimeout(role,900);$$("[data-to]").forEach(function(c){var t=+c.dataset.to,n=0,iv=setInterval(function(){c.textContent=++n;if(n>=t)clearInterval(iv)},200)});
+}
+$("#b1").onclick=openSite;
+
+// role mengetik
+var roles=["DEVELOPER • ARTIST • MEKANIK","MAHASISWA TEKNIK INDUSTRI","PROSES • KUALITAS • SISTEM","PENCARI CARA YANG LEBIH EFISIEN"],ri=0,ci=0,del=false,ty=$("#ty"),ran=false;
+function role(){if(ran)return;ran=true;(function tick(){var w=roles[ri];ci+=del?-1:1;ty.textContent=w.slice(0,ci)+"▍";var d=del?30:70;if(!del&&ci===w.length){del=true;d=1500}else if(del&&ci===0){del=false;ri=(ri+1)%roles.length;d=300}setTimeout(tick,d)})()}
+
+// kartu ID
+var idc=$("#idc"),fi=0,gear='<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="#000" stroke-width="22" stroke-dasharray="12 9.6"/><circle cx="100" cy="100" r="60" fill="none" stroke="#000" stroke-width="6"/><circle cx="100" cy="100" r="20" fill="none" stroke="#000" stroke-width="6"/></svg>';
+var faces=[function(){return'<img src="foto.jpg" alt="Foto UBHI" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'block\'"><b style="display:none;font-size:70px">UB</b><b class="rgb">UBHI</b><small>Miko Saputra</small><small>Dev · Artist · Mekanik</small>'},function(){return'<small>ID CARD</small>'+gear+'<b>INDUSTRI</b><small>proses · kualitas · sistem</small>'}];
+function face(){idc.className="idc f"+fi;idc.innerHTML=faces[fi]()}face();
+setInterval(function(){fi=(fi+1)%2;idc.animate([{transform:"rotateY(0)"},{transform:"rotateY(90deg)"}],{duration:260,fill:"forwards"}).onfinish=function(){face();idc.animate([{transform:"rotateY(-90deg)"},{transform:"rotateY(0)"}],{duration:260,fill:"forwards"})}},3200);
+
+// reveal, ketik, bar
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var el=e.target;io.unobserve(el);
+  if(!started){queue.push(el);return}fire(el)})},{threshold:.25});
+var K=0;$$(".sub,.who,.hp,.btns,.st,.two>div>p,.card p,.mc li,.tl p,.note").forEach(function(e){e.classList.add("sl","k"+(K++%5))});
+$$(".rv,.tw,.sl").forEach(function(e,i){if(!e.classList.contains("tw"))e.style.transitionDelay=(i%3)*.08+"s";io.observe(e)});
+addEventListener("scroll",function(){var h=document.documentElement;h.style.setProperty("--sy",h.scrollTop);$("#pg").style.transform="scaleX("+(h.scrollTop/((h.scrollHeight-h.clientHeight)||1))+")";
+  var t=$("#tl"),r=t.getBoundingClientRect(),p=Math.min(1,Math.max(0,(innerHeight*.7-r.top)/r.height));t.querySelector("u").style.height=p*100+"%"},{passive:true});
+
+
+// efek tambahan
+var cn=$("#cn"),cp=$("#cp"),dots=$("#dots");
+function calc(){var n=Math.max(1,+cn.value||1),p=+cp.value/100;$("#co").textContent=cp.value+"%";$("#r1").textContent=(n*p).toFixed(1);$("#r2").textContent=((1-Math.pow(1-p,n))*100).toFixed(1)+"%"}
+function sim(){var n=Math.min(100,Math.max(1,+cn.value||1)),p=+cp.value/100,x=0,h="";for(var i=0;i<n;i++){var d=Math.random()<p;if(d)x++;h+='<em class="'+(d?"x":"o")+'" style="animation-delay:'+(i*8)+'ms"></em>'}dots.innerHTML=h;$("#r3").textContent=x+" dari "+n}
+cn.oninput=cp.oninput=function(){calc();sim()};$("#sim").onclick=sim;calc();sim();
+addEventListener("pointermove",function(e){document.documentElement.style.setProperty("--mx",e.clientX+"px");document.documentElement.style.setProperty("--my",e.clientY+"px")},{passive:true});
+if(matchMedia("(hover:hover)").matches&&!RM)$$(".card").forEach(function(c){
+  c.addEventListener("pointermove",function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transitionDelay="0s";c.style.transition="transform .12s";c.style.transform="perspective(700px) rotateX("+(-y*10)+"deg) rotateY("+(x*12)+"deg) translateY(-6px)"});
+  c.addEventListener("pointerleave",function(){c.style.transition="";c.style.transform=""})});
+
+// game QC Rush
+var gc=$("#gc"),g=gc.getContext("2d"),GW=640,GH=360,lanes=[120,235],items=[],fx=[],sc=0,lv=3,cb=0,best=0,state="idle",last=0,spawn=0,overAt=0,AC2;
+try{best=+localStorage.getItem("ubhiBest")||0}catch(e){}
+if(best)$("#gb").textContent="Rekor: "+best;
+function beep(f,d){try{AC2=AC2||new(window.AudioContext||window.webkitAudioContext)();var o=AC2.createOscillator(),n=AC2.createGain(),t=AC2.currentTime;o.type="square";o.frequency.value=f;n.gain.setValueAtTime(.04,t);n.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(n);n.connect(AC2.destination);o.start(t);o.stop(t+d)}catch(e){}}
+function spd(){return 110+Math.min(sc,500)*.4}
+function gStart(){items=[];fx=[];sc=0;lv=3;cb=0;spawn=.4;state="run";last=performance.now();beep(520,.1);requestAnimationFrame(gLoop)}
+function hit(m,x,y){lv--;cb=0;beep(130,.25);fx.push({x:x,y:y,t:0,d:.9,s:m,c:"#f55"});if(lv<=0)gOver()}
+function gOver(){state="over";overAt=performance.now();if(sc>best){best=sc;try{localStorage.setItem("ubhiBest",best)}catch(e){}}$("#gb").textContent="Rekor: "+best;gDraw()}
+function gLoop(now){if(state!=="run")return;var dt=Math.min(.05,(now-last)/1000);last=now;gUpd(dt);gDraw();requestAnimationFrame(gLoop)}
+function gUpd(dt){
+  spawn-=dt;if(spawn<=0){items.push({x:-30,l:Math.random()<.5?0:1,bad:Math.random()<.45,out:0});spawn=Math.max(.4,1.05-sc/700)*(.7+Math.random()*.7)}
+  for(var i=items.length-1;i>=0;i--){var it=items[i];
+    if(it.out){it.out+=dt;if(it.out>.5)items.splice(i,1);continue}
+    it.x+=spd()*dt;
+    if(it.x>GW+24){items.splice(i,1);if(it.bad)hit("LOLOS!",GW-70,lanes[it.l]);else sc++}}
+  fx=fx.filter(function(f){return(f.t+=dt)<f.d})}
+function drawItem(it){var y=lanes[it.l]-(it.out?it.out*300:0);g.save();g.globalAlpha=it.out?Math.max(0,1-it.out*2):1;g.translate(it.x,y);if(it.out)g.rotate(it.out*9);
+  g.lineWidth=2;if(it.bad){g.shadowColor="#f33";g.shadowBlur=14;g.fillStyle="#2a0909";g.strokeStyle="#f33"}else{g.fillStyle="#e9e9e9";g.strokeStyle="#fff"}
+  g.fillRect(-22,-22,44,44);g.strokeRect(-22,-22,44,44);g.shadowBlur=0;g.lineWidth=3;g.beginPath();
+  if(it.bad){g.strokeStyle="#f33";g.moveTo(-12,-12);g.lineTo(-2,-2);g.lineTo(-8,4);g.lineTo(12,12)}else{g.strokeStyle="#169e45";g.moveTo(-10,0);g.lineTo(-3,8);g.lineTo(11,-9)}
+  g.stroke();g.restore()}
+function gDraw(){
+  g.setTransform(2,0,0,2,0,0);g.fillStyle="#080808";g.fillRect(0,0,GW,GH);g.strokeStyle="rgba(255,255,255,.06)";g.lineWidth=1;g.beginPath();for(var gx=0;gx<GW;gx+=40){g.moveTo(gx,0);g.lineTo(gx,GH)}for(var gy=0;gy<GH;gy+=40){g.moveTo(0,gy);g.lineTo(GW,gy)}g.stroke();
+  var off=(performance.now()/1000*spd())%40;
+  lanes.forEach(function(y){g.fillStyle="#161616";g.fillRect(0,y-32,GW,64);g.fillStyle="#262626";for(var x=-40+off;x<GW;x+=40)g.fillRect(x,y-32,6,64);g.fillStyle="#fff";g.fillRect(0,y-33,GW,1);g.fillRect(0,y+32,GW,1)});
+  g.fillStyle="rgba(255,51,51,.14)";g.fillRect(GW-26,0,26,GH);
+  items.forEach(drawItem);
+  fx.forEach(function(f){g.globalAlpha=1-f.t/f.d;g.fillStyle=f.c;g.font="700 20px JetBrains Mono,monospace";g.textAlign="center";g.fillText(f.s,f.x,f.y-f.t*40);g.globalAlpha=1});
+  g.fillStyle="#fff";g.font="600 15px JetBrains Mono,monospace";g.textAlign="left";g.fillText("SKOR "+sc,14,24);g.textAlign="right";g.fillStyle="#f55";g.fillText("♥".repeat(Math.max(0,lv)),GW-14,24);
+  if(cb>=3){g.textAlign="center";g.fillStyle="#0ef";g.fillText("COMBO x"+(1+Math.floor(cb/5))+"  ("+cb+")",GW/2,24)}
+  if(state!=="run"){g.fillStyle="rgba(0,0,0,.74)";g.fillRect(0,0,GW,GH);g.textAlign="center";g.fillStyle="#fff";g.font="400 54px Anton,Impact,sans-serif";g.fillText(state==="over"?"GAME OVER":"QC RUSH",GW/2,140);g.font="500 14px JetBrains Mono,monospace";
+    (state==="over"?["Skor: "+sc+"   Rekor: "+best,"Ketuk untuk main lagi"]:["Ketuk produk CACAT (merah) sebelum lolos","Jangan ketuk yang bagus! Combo melipatkan skor","Ketuk layar untuk mulai"]).forEach(function(t,i){g.fillText(t,GW/2,185+i*26)})}}
+gc.addEventListener("pointerdown",function(e){
+  e.preventDefault();
+  if(state!=="run"){if(performance.now()-overAt>600)gStart();return}
+  var r=gc.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*GW,y=(e.clientY-r.top)/r.height*GH,f=null;
+  items.forEach(function(it){if(!it.out&&Math.abs(x-it.x)<34&&Math.abs(y-lanes[it.l])<36&&(!f||it.x>f.x))f=it});
+  if(!f)return;f.out=.01;
+  if(f.bad){cb++;var n=10*(1+Math.floor(cb/5));sc+=n;fx.push({x:f.x,y:lanes[f.l]-20,t:0,d:.8,s:"+"+n,c:"#3f6"});beep(500+Math.min(cb,15)*40,.08)}
+  else hit("SALAH!",f.x,lanes[f.l])});
+$("#gs").onclick=function(){if(state!=="run")gStart()};
+new IntersectionObserver(function(es){if(!es[0].isIntersecting&&state==="run"){state="idle";gDraw()}}).observe(gc);
+gDraw();if(document.fonts)document.fonts.ready.then(gDraw);
+
+// latar kotak-kotak + ikon teknik industri
+var ICS=[["gear","top:-6%;right:-8%;width:min(46vw,520px);animation:rot 90s linear infinite",.12],["gear","top:42%;left:-7%;width:min(30vw,340px);animation:rot 60s linear infinite reverse",.2],["gear","bottom:6%;right:8%;width:140px;animation:rot 40s linear infinite",.28],["wrench","top:14%;left:9%;width:110px;rotate:35deg;animation:flt 6s ease-in-out infinite",.18],["helmet","top:62%;right:22%;width:120px;animation:flt 7s ease-in-out infinite",.22],["belt","bottom:4%;left:22%;width:200px;animation:flt 8s ease-in-out infinite",.15],["gauge","top:26%;right:18%;width:110px;animation:flt 5.5s ease-in-out infinite",.25],["fac","bottom:32%;left:34%;width:130px;animation:flt 9s ease-in-out infinite",.1],["nut","top:8%;left:44%;width:80px;animation:rot 50s linear infinite",.3]];
+function mkIc(box,list){list.forEach(function(a){var d=document.createElement("div");d.className="ic";d.style.cssText="--k:"+a[2]+";"+a[1];d.innerHTML='<svg viewBox="0 0 100 100"><use href="#s-'+a[0]+'" width="100" height="100"/></svg>';box.appendChild(d)})}
+mkIc($("#bgart"),ICS);mkIc($("#start"),ICS.slice(0,2));
+
+// satu layar penuh: titik navigasi bagian
+var secs=$$("section"),dw=document.createElement("div");dw.id="dots";
+secs.forEach(function(x,i){if(!x.id)x.id="bagian"+i;var a=document.createElement("a");a.href="#"+x.id;a.title=((x.querySelector(".tag")||{}).textContent||x.id).trim();a.setAttribute("aria-label",a.title);dw.appendChild(a)});
+document.body.appendChild(dw);
+var dl=[].slice.call(dw.children),so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)dl.forEach(function(a,i){a.classList.toggle("on",secs[i]===e.target)})})},{rootMargin:"-50% 0px -50% 0px"});
+secs.forEach(function(x){so.observe(x)});
+</script>
+</body>
+</html>
